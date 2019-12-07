@@ -36,20 +36,13 @@ auto bing_xml_url() -> std::string {
 auto bing_xml() -> std::string {
 	try
 	{
-		// That's all that is needed to do cleanup of used resources (RAII style).
-		curlpp::Cleanup myCleanup;
+		curlpp::Cleanup cleaner;
+		curlpp::Easy request;
 
-		// Our request to be sent.
-		curlpp::Easy myRequest;
+		request.setOpt<curlpp::options::Url>(bing_xml_url());
 
-		// Set the URL.
-		myRequest.setOpt<Url>(bing_xml_url());
-
-		// Send request and get a result.
-		// By default the result goes to standard output.
-		// myRequest.perform();
     std::ostringstream os;
-    os << myRequest;
+    os << request;
     return os.str();
 	}
 	catch(curlpp::RuntimeError& e)
@@ -92,8 +85,8 @@ auto save_bing_image() -> std::string {
 
     std::cout << "will be located under: " << filename << std::endl;
 
-    request.setOpt(new curlpp::options::WriteStream(&output));
-    request.setOpt(new curlpp::options::Url(image.url));
+    request.setOpt<curlpp::options::WriteStream>(&output);
+    request.setOpt<curlpp::options::Url>(image.url);
     request.perform();
 
     output.close();
