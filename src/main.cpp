@@ -34,27 +34,27 @@ auto bing_xml_url() -> std::string {
 }
 
 auto bing_xml() -> std::string {
-	try
-	{
-		curlpp::Cleanup cleaner;
-		curlpp::Easy request;
+  try
+  {
+    curlpp::Cleanup cleaner;
+    curlpp::Easy request;
 
-		request.setOpt<curlpp::options::Url>(bing_xml_url());
+    request.setOpt<curlpp::options::Url>(bing_xml_url());
 
     std::ostringstream os;
     os << request;
     return os.str();
-	}
-	catch(curlpp::RuntimeError& e)
-	{
-		std::cout << e.what() << std::endl;
+  }
+  catch(curlpp::RuntimeError& e)
+  {
+    std::cout << e.what() << std::endl;
     return std::string("");
-	}
-	catch(curlpp::LogicError& e)
-	{
-		std::cout << e.what() << std::endl;
+  }
+  catch(curlpp::LogicError& e)
+  {
+    std::cout << e.what() << std::endl;
     return std::string("");
-	}
+  }
 }
 
 auto bing_image_info() -> BingImage {
